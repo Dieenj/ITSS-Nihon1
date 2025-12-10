@@ -12,4 +12,5 @@ public class CafeDTO {
     private BigDecimal distance;
     private String image;
     private String description;
+    private String status;
 }

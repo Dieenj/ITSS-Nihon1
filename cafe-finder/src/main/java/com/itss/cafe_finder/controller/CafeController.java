@@ -20,9 +20,18 @@ public class CafeController {
             @RequestParam(required = false) Double minRating,
             @RequestParam(required = false) Double maxDistance,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortDirection
     ) {
-        return cafeService.searchCafes(keyword, minRating, maxDistance, page, size);
+        return cafeService.searchCafes(
+                keyword,
+                minRating,
+                maxDistance,
+                page,
+                size,
+                sortBy,
+                sortDirection
+        );
     }
-
 }
