@@ -44,7 +44,7 @@ function displayShops(list, elementId) {
         div.style.cursor = "pointer";
 
         div.onclick = () => {
-            window.location.href = `shop-details.html?id=${shop.id ?? 0}`;
+            window.location.href = `cafes/${shop.id ?? 0}`;
         };
 
         const ratingStars = '⭐'.repeat(Math.floor(shop.rating || 0));

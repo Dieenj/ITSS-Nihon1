@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<script th:src="@{/js/detail.js}" defer></script>
-
 <body style="
     font-family:'Noto Sans JP', sans-serif;
     background:#f2f2f2;
@@ -192,7 +190,7 @@
                 </p>
 
                 <!-- DATE -->
-                <p th:text="${#temporals.format(review.createdAt, 'yyyy/MM/dd HH:mm')}"
+                <p th:text="${review.createdAt != null ? #temporals.format(review.createdAt, 'yyyy/MM/dd HH:mm') : ''}"
                 style="margin-top:8px; font-size:13px; color:#888;">
                     投稿日時
                 </p>
