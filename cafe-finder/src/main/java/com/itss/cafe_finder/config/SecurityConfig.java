@@ -20,7 +20,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/index.html", "/css/**", "/js/**", "/images/**",  "/register", "/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/cafes/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
             )
             .formLogin((form) -> form
                 .loginPage("/login")
