@@ -41,20 +41,29 @@ function displayShops(list, elementId) {
     list.forEach(shop => {
         const div = document.createElement("div");
         div.className = "shop-card";
+        div.style.cursor = "pointer";
+
+        div.onclick = () => {
+            window.location.href = `shop-details.html?id=${shop.id ?? 0}`;
+        };
 
         const ratingStars = '⭐'.repeat(Math.floor(shop.rating || 0));
 
-        const imagePath = shop.image && shop.image.startsWith('/') ? shop.image : '/images/placeholder.png';
-        const imgSrc = `${BACKEND_URL}${imagePath}`;
+        const imageFile = shop.image ? shop.image : 'placeholder.png';
+        
+        const imgSrc = `${BACKEND_URL}/images/${imageFile}`.replace(/([^:]\/)\/+/g, "$1"); 
 
         const description = shop.description ?? "快適な空間";
-
-        // Status badge - only color, no text
-        const statusClass = shop.status === 'opening' ? 'status-open' : 'status-closed';
+        const statusClass = shop.status === 'opening'
+            ? 'status-open'
+            : 'status-closed';
 
         div.innerHTML = `
             <div class="shop-image-container">
-                <img src="${imgSrc}" alt="${shop.name}" class="shop-image">
+                <img src="${imgSrc}" 
+                     alt="${shop.name}" 
+                     class="shop-image" 
+                     onerror="this.onerror=null; this.src='/images/placeholder.png';">
                 <span class="status-badge ${statusClass}"></span>
             </div>
             <div class="shop-info">
@@ -63,10 +72,11 @@ function displayShops(list, elementId) {
                     ${ratingStars} <span>(${shop.rating ?? "N/A"})</span>
                 </p>
                 <p class="shop-distance">
-                    <i class="fas fa-map-marker-alt"></i> ${shop.distance ? shop.distance.toFixed(1) + ' km' : 'N/A'}
+                    <i class="fas fa-map-marker-alt"></i>
+                    ${shop.distance ? shop.distance.toFixed(1) + ' km' : 'N/A'}
                 </p>
                 <p class="shop-description">${description}</p>
-                <a href="/cafes/${shop.id}" class="details-button">Chi tiết</a>        
+            </div>
         `;
 
         container.appendChild(div);
@@ -88,7 +98,7 @@ function displayPagination(currentPage, totalPages) {
     if (currentPage > 0) {
         const prevBtn = document.createElement('button');
         prevBtn.className = 'pagination-btn';
-        prevBtn.innerHTML = '❮ Trước';
+        prevBtn.innerHTML = '❮';
         prevBtn.onclick = () => goToPage(currentPage - 1);
         pagination.appendChild(prevBtn);
     }
@@ -106,7 +116,7 @@ function displayPagination(currentPage, totalPages) {
     if (currentPage < totalPages - 1) {
         const nextBtn = document.createElement('button');
         nextBtn.className = 'pagination-btn';
-        nextBtn.innerHTML = 'Sau ❯';
+        nextBtn.innerHTML = '❯';
         nextBtn.onclick = () => goToPage(currentPage + 1);
         pagination.appendChild(nextBtn);
     }
