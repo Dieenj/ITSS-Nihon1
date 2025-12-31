@@ -10,17 +10,15 @@ function getSearchParamsFromURL() {
     return {
         keyword: params.get('keyword') || '',
         minRating: params.get('minRating') || '',
-        maxDistance: params.get('maxDistance') || '',
         page: parseInt(params.get('page')) || 0
     };
 }
 
 // Cập nhật URL với search parameters
-function updateURLWithParams(keyword, minRating, maxDistance, page) {
+function updateURLWithParams(keyword, minRating, page) {
     const params = new URLSearchParams();
     if (keyword) params.set('keyword', keyword);
     if (minRating) params.set('minRating', minRating);
-    if (maxDistance) params.set('maxDistance', maxDistance);
     if (page > 0) params.set('page', page);
     
     const newURL = params.toString() ? `${window.location.pathname}?${params.toString()}` : window.location.pathname;
@@ -73,7 +71,7 @@ function displayShops(list, elementId) {
                 </p>
                 <p class="shop-distance">
                     <i class="fas fa-map-marker-alt"></i>
-                    ${shop.distance ? shop.distance.toFixed(1) + ' km' : 'N/A'}
+                    ${(shop.lat && shop.lng) ? shop.lat + ', ' + shop.lng : 'N/A'}
                 </p>
                 <p class="shop-description">${description}</p>
             </div>
@@ -126,7 +124,7 @@ function displayPagination(currentPage, totalPages) {
 
 async function goToPage(page) {
     currentPage = page;
-    updateURLWithParams(currentSearchParams.keyword, currentSearchParams.minRating, currentSearchParams.maxDistance, page);
+    updateURLWithParams(currentSearchParams.keyword, currentSearchParams.minRating, page);
     try {
         const results = await fetchShops(currentSearchParams, page, ITEMS_PER_PAGE);
         displayShops(results, "nearbyShops");
@@ -174,7 +172,6 @@ async function fetchShops(params, page, size) {
 
     if (params.keyword) queryString += `&keyword=${encodeURIComponent(params.keyword)}`;
     if (params.minRating) queryString += `&minRating=${params.minRating}`;
-    if (params.maxDistance) queryString += `&maxDistance=${params.maxDistance}`;
 
     if (params.sortBy) queryString += `&sortBy=${params.sortBy}`;
     if (params.sortDirection) queryString += `&sortDirection=${params.sortDirection}`;
@@ -194,7 +191,6 @@ async function fetchShopsWithPagination(params, page, size) {
 
     if (params.keyword) queryString += `&keyword=${encodeURIComponent(params.keyword)}`;
     if (params.minRating) queryString += `&minRating=${params.minRating}`;
-    if (params.maxDistance) queryString += `&maxDistance=${params.maxDistance}`;
 
     if (params.sortBy) queryString += `&sortBy=${params.sortBy}`;
     if (params.sortDirection) queryString += `&sortDirection=${params.sortDirection}`;
@@ -224,7 +220,7 @@ async function displayFeaturedShops() {
 
 async function displayNearbyShops() {
     try {
-        const nearbyShops = await fetchShops({ sortBy: "distance", sortDirection: "asc" }, 0, 6);
+        const nearbyShops = await fetchShops({ sortBy: "id", sortDirection: "desc" }, 0, 6);
         displayShops(nearbyShops, "nearbyShops");
     } catch (error) {
         console.error("Nearby error:", error);
@@ -235,19 +231,17 @@ async function displayNearbyShops() {
 async function searchCoffeeShops() {
     const keyword = document.getElementById("searchInput").value.trim();
     const minRating = document.getElementById("filterRating").value;
-    const maxDistance = document.getElementById("filterDistance").value;
 
     const params = {
         keyword: keyword,
-        minRating: minRating,
-        maxDistance: maxDistance
+        minRating: minRating
     };
     
     currentSearchParams = params;
     currentPage = 0;
 
     // Update URL with search parameters
-    updateURLWithParams(keyword, minRating, maxDistance, 0);
+    updateURLWithParams(keyword, minRating, 0);
 
     try {
         const { content, totalElements } = await fetchShopsWithPagination(params, 0, ITEMS_PER_PAGE);
@@ -266,21 +260,19 @@ function handleLogout() {
 document.addEventListener("DOMContentLoaded", async () => {
     // Kiểm tra xem có URL parameters hay không
     const urlParams = getSearchParamsFromURL();
-    const hasSearchParams = urlParams.keyword || urlParams.minRating || urlParams.maxDistance;
+    const hasSearchParams = urlParams.keyword || urlParams.minRating;
 
     if (hasSearchParams) {
         // Nếu có search params, hiển thị kết quả tìm kiếm
         currentSearchParams = {
             keyword: urlParams.keyword,
-            minRating: urlParams.minRating,
-            maxDistance: urlParams.maxDistance
+            minRating: urlParams.minRating
         };
         currentPage = urlParams.page;
 
         // Cập nhật form với giá trị cũ
         document.getElementById("searchInput").value = urlParams.keyword;
         document.getElementById("filterRating").value = urlParams.minRating;
-        document.getElementById("filterDistance").value = urlParams.maxDistance;
 
         try {
             const { content, totalElements } = await fetchShopsWithPagination(currentSearchParams, currentPage, ITEMS_PER_PAGE);
@@ -300,12 +292,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const searchInput = document.getElementById("searchInput");
     const filterRating = document.getElementById("filterRating");
-    const filterDistance = document.getElementById("filterDistance");
 
     searchInput?.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
             searchCoffeeShops();
         }
+    });
+
+    filterRating?.addEventListener('change', function() {
+        searchCoffeeShops();
     });
 });

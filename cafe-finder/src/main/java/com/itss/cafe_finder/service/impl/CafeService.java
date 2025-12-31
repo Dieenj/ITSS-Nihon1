@@ -20,7 +20,6 @@ public class CafeService {
     public ResponseEntity<Page<CafeDTO>> searchCafes(
             String keyword,
             Double minRating,
-            Double maxDistance,
             int page,
             int size,
             String sortBy,
@@ -32,11 +31,9 @@ public class CafeService {
                 .orElse("");
 
         BigDecimal minRatingBd = minRating != null ? BigDecimal.valueOf(minRating) : null;
-        BigDecimal maxDistanceBd = maxDistance != null ? BigDecimal.valueOf(maxDistance) : null;
 
         boolean hasKeyword = !searchName.isEmpty();
         boolean hasRating = minRatingBd != null;
-        boolean hasDistance = maxDistanceBd != null;
 
         Sort sort = Sort.unsorted();
 
@@ -52,10 +49,6 @@ public class CafeService {
                     sort = Sort.by(direction, "rating");
                     break;
 
-                case "distance":
-                    sort = Sort.by(direction, "distance");
-                    break;
-
                 default:
                     sort = Sort.by(direction, sortBy);
             }
@@ -65,37 +58,18 @@ public class CafeService {
 
         Page<Cafe> cafes;
 
-        if (hasKeyword && hasRating && hasDistance) {
-            cafes = cafeRepository
-                    .findByNameContainingIgnoreCaseAndRatingGreaterThanEqualAndDistanceLessThanEqual(
-                            searchName, minRatingBd, maxDistanceBd, pageable);
-
-        } else if (hasKeyword && hasRating) {
+        if (hasKeyword && hasRating) {
             cafes = cafeRepository
                     .findByNameContainingIgnoreCaseAndRatingGreaterThanEqual(
                             searchName, minRatingBd, pageable);
-
-        } else if (hasKeyword && hasDistance) {
-            cafes = cafeRepository
-                    .findByNameContainingIgnoreCaseAndDistanceLessThanEqual(
-                            searchName, maxDistanceBd, pageable);
 
         } else if (hasKeyword) {
             cafes = cafeRepository
                     .findByNameContainingIgnoreCase(searchName, pageable);
 
-        } else if (hasRating && hasDistance) {
-            cafes = cafeRepository
-                    .findByRatingGreaterThanEqualAndDistanceLessThanEqual(
-                            minRatingBd, maxDistanceBd, pageable);
-
         } else if (hasRating) {
             cafes = cafeRepository
                     .findByRatingGreaterThanEqual(minRatingBd, pageable);
-
-        } else if (hasDistance) {
-            cafes = cafeRepository
-                    .findByDistanceLessThanEqual(maxDistanceBd, pageable);
 
         } else {
             cafes = cafeRepository.findAll(pageable);
@@ -116,7 +90,8 @@ public class CafeService {
         dto.setName(c.getName());
         dto.setAddress(c.getAddress());
         dto.setRating(c.getRating());
-        dto.setDistance(c.getDistance());
+        dto.setLat(c.getLat());
+        dto.setLng(c.getLng());
         dto.setDescription(c.getDescription());
         dto.setImage(c.getImage());
         dto.setStatus(c.getStatus() != null ? c.getStatus().toString() : "opening");

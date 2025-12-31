@@ -1,6 +1,5 @@
 package com.itss.cafe_finder.model;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -43,8 +42,15 @@ public class User {
     @Column(name = "status", insertable = false, updatable = false)
     private UserStatusType status;
 
-    private LocalDate dob;
+    private Double lat;
+    private Double lng;
 
     @Column(name = "updated_on", insertable = false, updatable = false)
     private ZonedDateTime updatedOn;
+
+    public Double getLat() { return lat; }
+    public void setLat(Double lat) { this.lat = lat; }
+
+    public Double getLng() { return lng; }
+    public void setLng(Double lng) { this.lng = lng; }
 }

@@ -31,8 +31,9 @@ public class Cafe {
 
     private String time;
 
-    private BigDecimal distance;
-
+    private Double lat;
+    private Double lng;
+    
     @Column(name = "updated_on")
     private ZonedDateTime updatedOn;
 }

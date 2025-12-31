@@ -13,7 +13,8 @@ public class AdminCafeDTO {
     private String name;
     private String address;
     private BigDecimal rating;
-    private BigDecimal distance;
+    private Double lat;
+    private Double lng;
     private String image;
     private String description;
     private String time;
@@ -22,4 +23,3 @@ public class AdminCafeDTO {
     private Long reviewCount;
     private List<DishDTO> dishes;
 }
-

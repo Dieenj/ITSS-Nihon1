@@ -27,29 +27,6 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
             Pageable pageable
     );
 
-    Page<Cafe> findByDistanceLessThanEqual(
-            BigDecimal maxDistance,
-            Pageable pageable
-    );
-
-    Page<Cafe> findByNameContainingIgnoreCaseAndDistanceLessThanEqual(
-            String name,
-            BigDecimal maxDistance,
-            Pageable pageable
-    );
-
-    Page<Cafe> findByRatingGreaterThanEqualAndDistanceLessThanEqual(
-            BigDecimal minRating,
-            BigDecimal maxDistance,
-            Pageable pageable
-    );
-
-    Page<Cafe> findByNameContainingIgnoreCaseAndRatingGreaterThanEqualAndDistanceLessThanEqual(
-            String name,
-            BigDecimal minRating,
-            BigDecimal maxDistance,
-            Pageable pageable
-    );
     
     Page<Cafe> findByNameContainingIgnoreCaseOrAddressContainingIgnoreCase(
             String name, String address, Pageable pageable);
