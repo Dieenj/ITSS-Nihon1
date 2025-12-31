@@ -51,7 +51,6 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         user.setName(req.getName());
-        user.setDob(req.getDob());
         user.setUpdatedOn(ZonedDateTime.now());
 
         System.out.println("Updating user: " + user);

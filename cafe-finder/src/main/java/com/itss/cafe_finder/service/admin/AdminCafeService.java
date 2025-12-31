@@ -60,7 +60,8 @@ public class AdminCafeService {
             if (dto.getName() != null) cafe.setName(dto.getName());
             if (dto.getAddress() != null) cafe.setAddress(dto.getAddress());
             if (dto.getRating() != null) cafe.setRating(dto.getRating());
-            if (dto.getDistance() != null) cafe.setDistance(dto.getDistance());
+            if (dto.getLat() != null) cafe.setLat(dto.getLat());
+            if (dto.getLng() != null) cafe.setLng(dto.getLng());
             if (dto.getImage() != null) cafe.setImage(dto.getImage());
             if (dto.getDescription() != null) cafe.setDescription(dto.getDescription());
             if (dto.getTime() != null) cafe.setTime(dto.getTime());
@@ -84,7 +85,8 @@ public class AdminCafeService {
         cafe.setName(dto.getName());
         cafe.setAddress(dto.getAddress());
         cafe.setRating(dto.getRating() != null ? dto.getRating() : java.math.BigDecimal.ZERO);
-        cafe.setDistance(dto.getDistance() != null ? dto.getDistance() : java.math.BigDecimal.ZERO);
+        cafe.setLat(dto.getLat());
+        cafe.setLng(dto.getLng());
         cafe.setImage(dto.getImage());
         cafe.setDescription(dto.getDescription());
         cafe.setTime(dto.getTime());
@@ -147,7 +149,8 @@ public class AdminCafeService {
         dto.setName(cafe.getName());
         dto.setAddress(cafe.getAddress());
         dto.setRating(cafe.getRating());
-        dto.setDistance(cafe.getDistance());
+        dto.setLat(cafe.getLat());
+        dto.setLng(cafe.getLng());
         dto.setImage(cafe.getImage());
         dto.setDescription(cafe.getDescription());
         dto.setTime(cafe.getTime());

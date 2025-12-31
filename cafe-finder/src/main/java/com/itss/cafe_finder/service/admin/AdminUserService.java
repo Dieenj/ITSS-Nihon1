@@ -86,7 +86,6 @@ public class AdminUserService {
         dto.setEmail(user.getEmail());
         dto.setRoleType(user.getRoleType());
         dto.setStatus(user.getStatus());
-        dto.setDob(user.getDob());
         dto.setUpdatedOn(user.getUpdatedOn());
         return dto;
     }

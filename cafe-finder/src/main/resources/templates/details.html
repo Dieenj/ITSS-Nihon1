@@ -51,7 +51,9 @@
                    <span th:text="${cafe.rating}">0</span> / 5
                 </p>
 
-                <p>距離: <span th:text="${cafe.distance}">0</span> km</p>
+                <p><i class="fas fa-location-arrow" style="color:#3498db; margin-right:8px;"></i>
+                   <span th:text="${cafe.lat}"></span>, <span th:text="${cafe.lng}"></span>
+                </p>
 
                 <p>
                     ステータス:

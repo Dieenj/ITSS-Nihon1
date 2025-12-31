@@ -274,13 +274,6 @@
                     <option value="4">⭐⭐⭐⭐ 4つ星以上</option>
                     <option value="3">⭐⭐⭐ 3つ星以上</option>
                 </select>
-
-                <select id="filterDistance">
-                    <option value="">距離でフィルター</option>
-                    <option value="1">1km以内</option>
-                    <option value="3">3km以内</option>
-                    <option value="5">5km以内</option>
-                </select>
             </div>
         </div>
     </header>
@@ -559,30 +552,6 @@
                 alert("❌ Không thể lưu vị trí");
             });
         }
-
-
-        // Filter functions
-        function searchCoffeeShops() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const ratingFilter = document.getElementById('filterRating').value;
-            const distanceFilter = document.getElementById('filterDistance').value;
-            
-            displayNearbyShops(1, searchTerm, ratingFilter, distanceFilter);
-        }
-
-        document.getElementById('filterRating')?.addEventListener('change', () => {
-            searchCoffeeShops();
-        });
-
-        document.getElementById('filterDistance')?.addEventListener('change', () => {
-            searchCoffeeShops();
-        });
-
-        document.getElementById('searchInput')?.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                searchCoffeeShops();
-            }
-        });
     </script>
 </body>
 </html>

@@ -27,7 +27,6 @@ public class CafeController {
         return cafeService.searchCafes(
                 keyword,
                 minRating,
-                maxDistance,
                 page,
                 size,
                 sortBy,

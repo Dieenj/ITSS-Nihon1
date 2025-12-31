@@ -36,7 +36,8 @@ public class CafeDetailService {
         dto.setName(cafe.getName());
         dto.setAddress(cafe.getAddress());
         dto.setRating(cafe.getRating());
-        dto.setDistance(cafe.getDistance());
+        dto.setLat(cafe.getLat());
+        dto.setLng(cafe.getLng());
         dto.setDescription(cafe.getDescription());
         dto.setImage(cafe.getImage());
         dto.setStatus(cafe.getStatus() != null ? cafe.getStatus().toString() : "opening");
